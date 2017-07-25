@@ -27,7 +27,7 @@ $( document ).on( "pageinit", "#map-page", function() {
         var marker = new google.maps.Marker({
             position: HS,
             map: map,
-            title: "Hallo!"
+            title: "HS Bremerhaven"
         });
         google.maps.event.addListenerOnce(map, 'idle', function() { //Sobald Map geladen ist: function
             google.maps.event.trigger(map, 'resize'); //Einmal Map resizen

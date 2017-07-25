@@ -1,13 +1,13 @@
 // Variablen definieren
 var width = 300;
 var height;
-var video, img_cache, photo; // vars für Zugriff auf HTML ELemnte
+var video, img_cache, photo; // vars für Zugriff auf HTML ELemente
 var streaming = false; // zeigt ob stream zum ersten mal geöffnet wird oder nicht
 var picArray = []; // Array zum speichern gemachter Fotos
 //Startup Funktion zum bereitstellen des Kamera-Feeds und des Auslösers
 $(document).on("pageshow", "#scanpage", function () {
 	"use strict";
-	// Variablen mit korrespondierenden HTML-Elemnetzen verknüpfen
+	// Variablen mit korrespondierenden HTML-Elemneten verknüpfen
 	video = $("video");
 	photo = $("#photo");
 	img_cache = $("#img_cache");
@@ -23,8 +23,6 @@ $(document).on("pageshow", "#scanpage", function () {
 	// Promise fehlgeschlagen: Fehlermeldung auszuspielen
 	.catch(function (err) {
 		alert("Kamera-Fehler!"+err);
-		video.attr("src", "../testvid.mp4");
-		video.get(0).play();
 	});
 	// Falls streaming = false, also Feed wird zum ersten Mal geöffnet:
 	// Größen konfigurieren + streaming = true damit keine Wiederholung bei nächstem Abruf

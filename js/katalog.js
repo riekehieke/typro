@@ -21,7 +21,7 @@ $.ajax({
                 // gespeicherte Infos in HTML einbinden: Überschrift + Text-Infos
                 $(".h1_a").append(name);
                 $(".text_a").append("<p><b>Designer:</b> "+designer+"</p><p><b>Jahr: </b>"+jahr+"</p>");
-            })
+            });
 
 
         }

@@ -46,7 +46,7 @@ function logCheck() {
         $("#user").css("background-image", "url('../img/placeholder.png')");
 	}
 }
-// User-abhängiges manipulieren des Panels
+// User-abhängiges manipulieren des Panels beim ersten Start der Seite
 function logCheckStart() {
     if (localStorage.getItem("username") === boldUser && localStorage.getItem("passwort") === boldPass) {
         $("#pUser").text("Hallo, " + boldUser).css("color","white");
