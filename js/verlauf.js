@@ -1,14 +1,14 @@
 $(document).on("pageshow", "#verlauf", function(){
     "use strict";
-    if (localStorage.getItem("PicArray") === null) {
-        PicArray=[];
-        localStorage.setItem("PicArray", JSON.stringify(PicArray));
+    if (localStorage.getItem("picArray") === null) {
+        picArray=[];
+        localStorage.setItem("picArray", JSON.stringify(picArray));
     }
-    var VerlaufArray;
-    var VerlaufArrayL;
-    VerlaufArray = JSON.parse(localStorage.getItem("PicArray"));
-    VerlaufArrayL = VerlaufArray.length;
-    for ( var i=0; i<VerlaufArrayL; i++ ) {
-        $("#content_verlauf").append('<img style="margin: 5px; " src ='+VerlaufArray[i]+'>');
+    var verlaufArray;
+    var verlaufArrayL;
+    verlaufArray = JSON.parse(localStorage.getItem("picArray"));
+    verlaufArrayL = verlaufArray.length;
+    for ( var i=0; i<verlaufArrayL; i++ ) {
+        $("#content_verlauf").append('<img class="verlaufPic" src ='+verlaufArray[i]+'>');
     }
 });
