@@ -1,5 +1,5 @@
 @charset "utf-8";
-
+/* Styling Kamera Canvas */
 #camView {
   display: flex;
   flex-direction: column;
@@ -32,7 +32,10 @@
   background-image: url(../img/placeholder_cam.png);
   background-size: cover;
 }
-/* Styling Verlauf */
 #img_cache {
   display: none;
+}
+/* Styling Verlauf */
+.verlaufPic {
+	margin: 5px;
 }
