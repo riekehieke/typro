@@ -1,5 +1,5 @@
 @charset "utf-8";
-/* Styling Kamera Canvas */
+
 #camView {
   display: flex;
   flex-direction: column;
@@ -10,10 +10,11 @@
   overflow: hidden;
   }
 #camFooter div{
-  width: 80px;
+  width: 60px;
 }
 #camFooter {
-  margin-top: 30px;
+  bottom: 0px;
+  margin-top: 20px;
   padding: 0 20px 0 20px;
   display: flex;
   justify-content: space-between;
@@ -29,12 +30,9 @@
   width: 60px;
   height: 60px;
   background-image: url(../img/placeholder_cam.png);
-  background-size: contain;
-}
-#img_cache {
-  display: none;
+  background-size: cover;
 }
 /* Styling Verlauf */
-.verlaufPic {
-	margin: 5px;
+#img_cache {
+  display: none;
 }
