@@ -41,7 +41,7 @@ function startup() {
     imgCtx = imgCache.get(0).getContext('2d');
     //Foto-Import bereitstellen
     $("#uploadA").click(function(e) {
-        e.preventDefault;
+        e.preventDefault();
         $("#imgInput:hidden").trigger('click');
     });
     // Kamera-Feed abfragen
@@ -179,7 +179,7 @@ function saveImg() {
     var transaction = typroDB.transaction('photos', 'readwrite');
     transaction.objectStore('photos').add(store);
     transaction.oncomplete = function() {
-        console.log("Gespeichert.");
+        console.log("Bild gespeichert.");
     };
 }
 //Foto-Import

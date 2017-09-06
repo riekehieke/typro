@@ -66,7 +66,7 @@ function detailDelete() {
 function detailDownload() {
     $('#detailDownload').attr('href', currentDetail.photo);
     $(this).attr('download', 'typro-image.png');
-    $(this)[0].click();
+    $('#detailDownload')[0].click();
 }
 // Falls User auf Link zum Katalog klickt, vor pagechange die Verknüpfung aktivieren (vgl. checkRef in katalog.js)
 function setRef() {
