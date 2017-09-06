@@ -3,6 +3,7 @@ var video, feed, photo, imgCache; // für Zugriff auf HTML ELemente
 var vidSizeDefined = false; // zeigt ob stream zum ersten mal geöffnet wird oder nicht
 var camStream = null,
     streamTrack; //(globaler) Zugriff auf Kamera-Feed
+var disableAPI = false;
 var vidW, vidH, feedW, feedH, renderW, renderH, offsetX = 0,
     offsetY = 0; // zur Berechnung der Feed-Größe
 var feedCtx; //context für gecroppten Canvas des Kamera-Feeds
@@ -98,7 +99,7 @@ function legacyCam() {
 function takepicture() {
     //API nicht verfügbar: Canvas speichern
     if (camStream !== null) {
-        if (!window.ImageCapture) {
+        if ((!window.ImageCapture) || (disableAPI)) {
             legacyCam();
         } else {
             //ImageCapture-API aufrufen (Chrome 60+, Firefox hinter flag), liefert blob
@@ -119,8 +120,10 @@ function takepicture() {
                 })
                 //Promise fehlgeschlagen: Warnen, auf andere Methode zurückfallen, Kamera-Verbindung neu herstellen
                 .catch(function(err) {
-                    console.log('ImageCapture API failed (' + err + '): fallback to legacy method.');
                     legacyCam();
+                    disableAPI = true;
+                    console.warn('Verwendung von ImageCapture API fehlgeschlagen (' + err + '): fallback zu Canavs-Methode.');
+                    console.log('Webcam Treiber unterstützt evtl. ImageCapture API nicht.');
                     startup();
                 });
         }
@@ -162,6 +165,7 @@ function camRelease() {
     if (camStream !== null) {
         streamTrack.stop();
         camStream = null;
+        vidSizeDefined = false;
     }
 }
 //Bild in IndexedDB speichern:
