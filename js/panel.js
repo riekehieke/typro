@@ -3,6 +3,7 @@
 $(function() {
 	$("#menu").enhanceWithin().panel();
 });
+
 //Panel per Swipe öffnen
 $(function () {
     //Bei Swipe auf allen Pages wird Panel geöffnet

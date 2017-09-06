@@ -1,21 +1,26 @@
 // JS der Einstellungsseite+Unterseiten
 "use strict";
 // Löschen der Username und Passwort-Informationen aus dem Localstorage
-$(document).on('click touchstart', '#l_ja', function(){
-	localStorage.removeItem('username');
-	localStorage.removeItem('passwort');
-	logCheck();
+$(document).on('click touchstart', '#l_ja', function() {
+    localStorage.removeItem('username');
+    localStorage.removeItem('passwort');
+    logCheck();
 });
-// Kompletten Localstorage löschen
-$(document).on('click touchstart', '#b_ja', function(){
-	localStorage.clear();
-	logCheck();
+// Kompletten Speicher löschen
+$(document).on('click touchstart', '#b_ja', function() {
+    var transaction = typroDB.transaction('photos', 'readwrite');
+    transaction.objectStore('photos').clear();
+    transaction.oncomplete = function() {
+        localStorage.clear();
+        logCheck();
+    }
 });
 
 // Google Map auf Kontaktseite
-$( document ).on( "pageinit", "#map-page", function() {
-    var HS = new google.maps.LatLng(53.539973, 8.583219);  // Koordinaten HS Bremerhaven
+$(document).on("pageinit", "#map-page", function() {
+    var HS = new google.maps.LatLng(53.539973, 8.583219); // Koordinaten HS Bremerhaven
     drawMap(HS);
+
     function drawMap(HS) {
         var myOptions = {
             zoom: 15,
@@ -27,7 +32,7 @@ $( document ).on( "pageinit", "#map-page", function() {
         var marker = new google.maps.Marker({
             position: HS,
             map: map,
-            title: "HS Bremerhaven"
+            title: "Hallo!"
         });
         google.maps.event.addListenerOnce(map, 'idle', function() { //Sobald Map geladen ist: function
             google.maps.event.trigger(map, 'resize'); //Einmal Map resizen
@@ -37,4 +42,3 @@ $( document ).on( "pageinit", "#map-page", function() {
     }
 
 });
-
