@@ -9,7 +9,7 @@ var detailRef = false;
 //VERLAUFSEITE
 // Falls eingeloggter User: Angabe im Titel
 $(document).on('pagebeforeshow', '#verlauf', function () {
-    if (currentUser != 'noLogin') {
+    if (currentUser !== 'noLogin') {
         $('#scanUser').text(' von ' + currentUser);
     } else {
         $('#scanUser').text('');
