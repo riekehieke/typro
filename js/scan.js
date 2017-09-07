@@ -125,7 +125,7 @@ function takepicture() {
                 .catch(function (err) {
                     legacyCam();
                     disableAPI = true;
-                    console.warn('Verwendung von ImageCapture API fehlgeschlagen (' + err + '): fallback zu Canavs-Methode.');
+                    console.warn('Verwendung von ImageCapture API fehlgeschlagen (' + err + '): ab jetzt Fallback zu Canvas-Methode.');
                     console.warn('Webcam Treiber unterstützt evtl. ImageCapture API nicht.');
                     startup();
                 });
