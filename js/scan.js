@@ -11,18 +11,18 @@ var imgCtx; //context für Full-Frame-Canvas der Fotofunktion
 var newImg; //Zwischenspeicher für neues Bild
 
 //Erst Seitengröße anpassen, nach geladener Seite Hauptfunktion starten
-$(document).on("pagebeforeshow", "#scanpage", function() {
+$(document).on("pagebeforeshow", "#scanpage", function () {
     scaleContent();
     $(window).on("resize", scaleContent);
 });
-$(document).on("pageshow", "#scanpage", function() {
+$(document).on("pageshow", "#scanpage", function () {
     startup();
 });
 //Zugriff auf Kamera steuern
-$(document).on("pagehide", "#scanpage", function() {
+$(document).on("pagehide", "#scanpage", function () {
     camRelease();
 });
-$(document).on('visibilitychange', function() {
+$(document).on('visibilitychange', function () {
     if (document.visibilityState === 'hidden') {
         camRelease();
     } else if ($.mobile.activePage[0].id === "scanpage") {
@@ -40,30 +40,30 @@ function startup() {
     imgCache = $('#imgCache');
     imgCtx = imgCache.get(0).getContext('2d');
     //Foto-Import bereitstellen
-    $("#uploadA").click(function(e) {
+    $("#uploadA").click(function (e) {
         e.preventDefault();
         $("#imgInput:hidden").trigger('click');
     });
     // Kamera-Feed abfragen
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
     navigator.mediaDevices.getUserMedia({
-            video: { facingMode: "environment" },
-            audio: false
-                // falls Promise erfolgreich: Kamera-Stream mit Feed verknüpfen	
-        }).then(function(stream) {
-            camStream = stream;
-            streamTrack = camStream.getVideoTracks()[0];
-            $("#errorText").html("");
-            video.get(0).srcObject = camStream;
-            video.get(0).play();
-        })
+        video: { facingMode: "environment" },
+        audio: false
+        // falls Promise erfolgreich: Kamera-Stream mit Feed verknüpfen	
+    }).then(function (stream) {
+        camStream = stream;
+        streamTrack = camStream.getVideoTracks()[0];
+        $("#errorText").html("");
+        video.get(0).srcObject = camStream;
+        video.get(0).play();
+    })
         // Promise fehlgeschlagen: Fehlermeldung ausspielen
-        .catch(function(err) {
+        .catch(function (err) {
             feedCtx.clearRect(0, 0, feed.attr('width'), feed.attr('height'));
             $("#errorText").html("Kein Zugriff auf Kamera m&ouml;glich.<br>" + err);
         });
     // Falls vidSizeDefined = false -> Feed wird zum ersten Mal gestartet: (HTML-)Videogröße anpassen
-    video.on('loadedmetadata', function() {
+    video.on('loadedmetadata', function () {
         if (!vidSizeDefined) {
             vidW = video.get(0).videoWidth;
             vidH = video.get(0).videoHeight;
@@ -74,7 +74,7 @@ function startup() {
             vidSizeDefined = true;
         }
         //Video bereit: abspielen und responsive machen
-    }).on('canplay', function() {
+    }).on('canplay', function () {
         adjustFeedScale();
         refreshFrame();
         $(window).on("resize", adjustFeedScale);
@@ -106,9 +106,9 @@ function takepicture() {
             var imageCapture = new ImageCapture(streamTrack);
             imageCapture.takePhoto()
                 //Promise erfolgreich: blob zu Bild, speichern, vorschauen 
-                .then(function(img) {
+                .then(function (img) {
                     var reader = new FileReader(img);
-                    reader.addEventListener('load', function() {
+                    reader.addEventListener('load', function () {
                         newImg = reader.result;
                         saveImg();
                         photo.css("background-image", "url(" + newImg + ")");
@@ -119,7 +119,7 @@ function takepicture() {
                     }
                 })
                 //Promise fehlgeschlagen: Warnen, auf andere Methode zurückfallen, Kamera-Verbindung neu herstellen
-                .catch(function(err) {
+                .catch(function (err) {
                     legacyCam();
                     disableAPI = true;
                     console.warn('Verwendung von ImageCapture API fehlgeschlagen (' + err + '): fallback zu Canavs-Methode.');
@@ -178,7 +178,7 @@ function saveImg() {
     };
     var transaction = typroDB.transaction('photos', 'readwrite');
     transaction.objectStore('photos').add(store);
-    transaction.oncomplete = function() {
+    transaction.oncomplete = function () {
         console.log("Bild gespeichert.");
     };
 }
@@ -187,7 +187,7 @@ function imgImport(files) {
     for (var i = 0; i < files.length; i++) {
         var file = files[i];
         var reader = new FileReader();
-        reader.addEventListener('load', function(e) {
+        reader.addEventListener('load', function (e) {
             newImg = e.target.result;
             photo.css("background-image", "url(" + newImg + ")");
             photo.css("background-size", "cover");
