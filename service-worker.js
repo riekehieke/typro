@@ -1,4 +1,4 @@
-//Service Worker (sw) für Offline-Funktionalität (Chrome, Firefox, Opera + Edge mit flag)
+//Service Worker (sw) für Offline-Funktionalität (Chrome, Firefox, Opera und Edge mit flag)
 'use strict';
 var appcache = 'typro'; //Cache-Name
 // Liste mit Objekten, die vor aktiv werden des sw zwingend gechached sein müssen
@@ -53,7 +53,7 @@ var cacheRequired = [
     '/typro/img/scan.png',
     '/typro/manifest.json'
 ];
-// Liste mit Objekten, die später gecached werden, falls möglich
+// Liste mit Objekten, die auch noch nach Installation gecached werden können
 var cacheOptional = [
     '/typro/xml/fonts.xml',
     '/typro/img/camBG.png',
@@ -119,24 +119,24 @@ var cacheOptional = [
 ];
 // Bei Installieren des sw warten bis Cache angelegt(geöffnet) und cacheRequired returned, sodass das .then promise aufgelöst wird
 // Falls cacheRequired nicht vollständig gechached wurde, schlägt das promise fehl, sw wird dann NICHT installiert
-self.addEventListener('install', function(event) {
+self.addEventListener('install', function (event) {
     event.waitUntil(
         caches.open(appcache)
-        .then(function(cache) {
-            cache.addAll(cacheOptional);
-            return cache.addAll(cacheRequired);
-        })
+            .then(function (cache) {
+                cache.addAll(cacheOptional);
+                return cache.addAll(cacheRequired);
+            })
     );
 });
 // Bei Netzwerkanfrage der Seite (fetch): Anfrage beantworten
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function (event) {
     event.respondWith(respond(event));
 });
 // Cache öffnen, falls passendes Objekt im Cache vorhanden damit die Anfrage beantworten und Cache aktualisieren,
 // anderenfalls auf Netzwerk zurückgreifen
 function respond(event) {
-    return caches.open(appcache).then(function(cache) {
-        return cache.match(event.request).then(function(response) {
+    return caches.open(appcache).then(function (cache) {
+        return cache.match(event.request).then(function (response) {
             if (response) {
                 return response;
             } else {
