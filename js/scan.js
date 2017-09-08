@@ -1,9 +1,8 @@
 //Für eslint:
-/* global typroDB, currentUser, headerH, ImageCapture */
+/* global typroDB, currentUser, ImageCapture */
 /* exported imgImport, takepicture */
 'use strict';
 var video, feed, photo, imgCache; // für Zugriff auf HTML ELemente
-var vidSizeDefined = false; // zeigt ob stream zum ersten mal geöffnet wird oder nicht
 var camStream = null,
     streamTrack; //(globaler) Zugriff auf Kamera-Feed
 var disableAPI = false;
@@ -65,17 +64,14 @@ function startup() {
             feedCtx.clearRect(0, 0, feed.attr('width'), feed.attr('height'));
             $('#errorText').html('Kein Zugriff auf Kamera m&ouml;glich.<br>' + err);
         });
-    // Falls vidSizeDefined = false -> Feed wird zum ersten Mal gestartet: (HTML-)Videogröße anpassen
+    // Vor Videostart (HTML-)Videogröße anpassen
     video.on('loadedmetadata', function () {
-        if (!vidSizeDefined) {
-            vidW = video.get(0).videoWidth;
-            vidH = video.get(0).videoHeight;
-            video.attr('width', vidW);
-            video.attr('height', vidH);
-            imgCache.attr('width', vidW);
-            imgCache.attr('height', vidH);
-            vidSizeDefined = true;
-        }
+        vidW = video.get(0).videoWidth;
+        vidH = video.get(0).videoHeight;
+        video.attr('width', vidW);
+        video.attr('height', vidH);
+        imgCache.attr('width', vidW);
+        imgCache.attr('height', vidH);
         //Video bereit: abspielen und responsive machen
     }).on('canplay', function () {
         adjustFeedScale();
@@ -84,10 +80,9 @@ function startup() {
     });
 }
 //ENDE HAUPTFUNKTION
-// Größe des Content-Bereichs anpassen
+// Größe des Content-Bereichs (viewport - header) anpassen
 function scaleContent() {
-    var viewportH = $(window).height();
-    $('#content_scan').css('height', (viewportH - headerH + 1));
+    $('#content_scan').attr('style', '--contentH: ' + ($(window).height() - 69));
 }
 // Bild machen, entweder mittels Foto-API oder durch speichern des aktuellen Canvas
 function legacyCam() {
@@ -168,7 +163,6 @@ function camRelease() {
     if (camStream !== null) {
         streamTrack.stop();
         camStream = null;
-        vidSizeDefined = false;
     }
 }
 //Bild in IndexedDB speichern:
