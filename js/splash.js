@@ -1,8 +1,9 @@
 'use strict';
+var rClick;
 //Rechtsklick deaktivieren
 $(function () {
     $(this).bind('contextmenu', function (e) {
-        e.preventDefault();
+        if (!rClick) { e.preventDefault(); }
     });
 });
 // Dauer Anzeige Splash Page
