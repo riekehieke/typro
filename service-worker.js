@@ -132,12 +132,21 @@ self.addEventListener('install', function (event) {
 self.addEventListener('fetch', function (event) {
     event.respondWith(respond(event));
 });
-// Cache öffnen, falls passendes Objekt im Cache vorhanden damit die Anfrage beantworten und Cache aktualisieren,
+// Cache öffnen, falls passendes Objekt im Cache vorhanden damit die Anfrage beantworten und Cache aktualisieren (-> bei nächstem Pageload/Fetch wird neue Version ausgespielt),
 // anderenfalls auf Netzwerk zurückgreifen
 function respond(event) {
     return caches.open(appcache).then(function (cache) {
         return cache.match(event.request).then(function (response) {
             if (response) {
+                if (navigator.onLine) {
+                    fetch(event.request)
+                        .then(function (netresponse) {
+                            caches.open(appcache)
+                                .then(function (cache) {
+                                    cache.put(event.request, netresponse);
+                                });
+                        });
+                }
                 return response;
             } else {
                 return fetch(event.request);

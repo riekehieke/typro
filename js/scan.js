@@ -1,17 +1,16 @@
 //Für eslint:
-/* global typroDB, currentUser, ImageCapture */
+/* global typroDB, currentUser, ImageCapture, disableAPI:true */
 /* exported imgImport, takepicture */
 'use strict';
 var video, feed, photo, imgCache; // für Zugriff auf HTML ELemente
 var camStream = null,
     streamTrack; //(globaler) Zugriff auf Kamera-Feed
-var disableAPI = false;
 var vidW, vidH, feedW, feedH, renderW, renderH, offsetX = 0,
     offsetY = 0; // zur Berechnung der Feed-Größe
 var feedCtx; //context für gecroppten Canvas des Kamera-Feeds
 var imgCtx; //context für Full-Frame-Canvas der Fotofunktion
 var newImg; //Zwischenspeicher für neues Bild
-
+var disableAPI = false; // Steuert, ob ImageCapture oder Canvas für Fotos verwendet wird
 //Erst Seitengröße anpassen, nach geladener Seite Hauptfunktion starten
 $(document).on('pagebeforeshow', '#scanpage', function () {
     scaleContent();
@@ -29,6 +28,12 @@ $(document).on('visibilitychange', function () {
         camRelease();
     } else if ($.mobile.activePage[0].id === 'scanpage') {
         startup();
+    }
+});
+// Zustand von disableAPI abfragen
+$(function () {
+    if (localStorage.getItem('disableAPI') === 'true') {
+        disableAPI = true;
     }
 });
 //HAUPTFUNKTION
@@ -116,13 +121,14 @@ function takepicture() {
                         reader.readAsDataURL(img);
                     }
                 })
-                //Promise fehlgeschlagen: Warnen, auf andere Methode zurückfallen, Kamera-Verbindung neu herstellen
+                //Promise fehlgeschlagen: ab jetzt immer auf andere Methode zurückfallen, Kamera-Verbindung neu herstellen
                 .catch(function (err) {
                     legacyCam();
+                    startup();
                     disableAPI = true;
+                    localStorage.setItem('disableAPI', 'true');
                     console.warn('Verwendung von ImageCapture API fehlgeschlagen (' + err + '): ab jetzt Fallback zu Canvas-Methode.');
                     console.warn('Webcam Treiber unterstützt evtl. ImageCapture API nicht.');
-                    startup();
                 });
         }
     }
