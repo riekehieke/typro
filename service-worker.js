@@ -27,6 +27,7 @@ var cacheRequired = [
     '/typro/css/themes/images/icons-png/katalog.png',
     '/typro/css/themes/images/icons-png/verlauf.png',
     '/typro/css/themes/images/icons-png/einstellungen.png',
+    '/typro/css/themes/images/icons-png/carat-l-black.png',
     '/typro/css/index.css',
     '/typro/css/einstellungen.css',
     '/typro/css/icons.css',
@@ -115,8 +116,7 @@ var cacheOptional = [
     '/typro/img/Univers3.jpg',
     '/typro/img/Verdana1.jpg',
     '/typro/img/Verdana2.jpg',
-    '/typro/img/Verdana3.jpg',
-    '/typro/css/themes/images/icons-png/carat-l-black.png'
+    '/typro/img/Verdana3.jpg'
 ];
 // Bei Installieren des sw warten bis Cache angelegt(geöffnet) und cacheRequired returned, sodass das .then promise aufgelöst wird
 // Falls cacheRequired nicht vollständig gechached wurde, schlägt das promise fehl, sw wird dann NICHT installiert
