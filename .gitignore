@@ -1,2 +1,9 @@
+.DS_Store
 
-.idea/dictionaries/joku4.xml
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
